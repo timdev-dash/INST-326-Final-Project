@@ -100,7 +100,7 @@ def parse_args(args_list):
     
     parser = argparse.ArgumentParser()
     parser.add_argument('webpage', type = str, help = 'The URl of the desired web page')
-    args = parser.parser_args(args_list)
+    args = parser.parse_args(args_list)
     return args
 
 if __name__ == "__main__":
