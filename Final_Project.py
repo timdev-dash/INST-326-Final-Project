@@ -4,39 +4,39 @@ Assignment: Team 11 Project
 Date: 11/28/2022
 INST326-ESG1 Farmer Fall 2022
 """
-
+import csv
 import argparse
 import sys
-import pandas
-import selenium
+import pandas as pd
+import re
+import requests
 
-class Webpage():
-    '''Creating the webpage class which will use webscraping to extract data and later be converted into a dataframe for further data analysis'''
-    #Initializes URL as string
-    def __init__(self):
-        pass
     
-    #Web Scraper that reads and extract data from webpage using URL 
-    def FunctionSeven(self):
-        pass
+#This function removes unnecessary columns from the dataframe
+def FrameCleaner(dataframe):
+    cols = [3,5,6,7,8,9,10,11]
+    cleaned_dataframe = dataframe.drop(dataframe.columns[cols], axis = 1)
+    return cleaned_dataframe
     
-    
-    #Takes extracted data and organizes each item
-    def FunctionEight(self):
-        '''This might be a class method'''
-        pass
+#Takes extracted data and organizes each item    
+def Uniquefilter(self):
+    '''This function looks through the dataframe and removes duplicate items'''
+    pass
         
 
-def DataframeConverter(rawdata):
-    '''Takes data from web scraping and converts it into a dataframe
+def DataframeMaker():
+    '''
+    This function takes data from a csv url and converts it into a dataframe
     
-    Argument: 
-        - rawdata: the cleaned up and extracted data from webscraping the webpage object
-        
+    Arguments:
+        - rawdata: The original data file
+    
     Returns:
         - rawdata as a dataframe
+    
     '''
-    pass
+    Medicines = pd.read_csv("https://download.medicaid.gov/data/nadac-national-average-drug-acquisition-cost-12072022.csv")
+    return Medicines
 
 def DataframeSorter(dataframe):
     '''Takes dataframe argument and sorts the information by cost from lowest to highest
@@ -83,10 +83,20 @@ def FileSaver(textfile):
     '''Takes textfile argument and saves it
     
     Argument
-        - textfile: textfile containing dataframe
+        - textfile: textfile containing filtered and sorted dataframe
     '''
     pass
 
+def main(dataframe):
+    """
+    The main function
+
+    Parameters:
+        dataframe (str)
+    """
+    UpdatedFrame = FrameCleaner(dataframe)
+    print(UpdatedFrame)
+    return None
 
 def parse_args(args_list):
     '''
@@ -99,9 +109,15 @@ def parse_args(args_list):
     '''
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('webpage', type = str, help = 'The URl of the desired web page')
+    parser.add_argument('--medicine_type', type = str, help = 'The type of medicine a user wants to search for')
     args = parser.parse_args(args_list)
     return args
 
+
+
 if __name__ == "__main__":
-    pass
+    args = parse_args(sys.argv[1:])
+    
+    #Creat Medicine dataframe then pass dataframe through main to filter and sort data
+    Medicine = DataframeMaker()
+    RequestedProduct = main(Medicine)
