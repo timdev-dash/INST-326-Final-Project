@@ -1,0 +1,16 @@
+This is just an idea, feedback is wanted!!
+
+For the project I was thinking we might have the end workflow look something like this:
+
+User runs script from terminal using 1 required and 2 optional parameters, the names of medicines.
+
+parse_args runs them through and creates the list. (1st method)
+
+if __name__ == "__main__" takes the list of one or more parameters and passes them through to the main function. (2nd method and 3rd method)
+
+The main function creates our source by calling the DataframeMaker method (pulling .csv file from the website and returning a df). It then (4th method)
+passes the dataframe through the FrameCleaner method (removes unnecessary columns and maybe verifying data types) returning a cleaned source. (5th method)
+Using the cleaned source we parse through the medicines and creat a results dataframe that only includes items matching the provided medicine(s) (6th method)
+We create an output string of the results for the main to return and then write that string to an output file, having the main method return the result string. (7th and 8th methods)
+
+Thoughts?
