@@ -87,16 +87,38 @@ def FileSaver(textfile):
     '''
     pass
 
-def main(dataframe):
+## Defining the main function for the script ##
+def main(primary: str, secondary = "", tertiary = ""):
     """
     The main function
 
     Parameters:
-        dataframe (str)
+        primary(str): The primary and required medicine to search the dataframe for
+        secondary(str): The secondary, optional medicine to search the dataframe for
+        tertiary(str): The tertiary, optional medicine to search the dataframe for
+    
+    Returns:
+        output_string(str): The string summarizing the filtered results using the provided medicine selections
     """
-    UpdatedFrame = FrameCleaner(dataframe)
-    print(UpdatedFrame)
-    return None
+
+    ## Calling for the source dataframe from the online .csv file ##
+    source = DataframeMaker()
+
+    ## Removing extraneous columns from dataframe using the FrameCleaner method ##
+    cleansource = FrameCleaner(source)
+
+    ## Run through the cleaned datasource using the medicine_parser method ##
+    medicine_list = medicine_parser(cleansource, primary, secondary, tertiary)
+
+    ## Creating output string using the string_writer method ##
+    ouput_string = string_writer(medicine_list)
+
+    ## Sending the output string to the fileWriter method to create the output file of results ##
+    fileWrite(output_string)
+
+    ## Returning the output_string result to report the results ##
+    return output_string
+
 
 def parse_args(args_list):
     '''
@@ -104,20 +126,22 @@ def parse_args(args_list):
     
     Args:
         args_list(list): the list of strings from the command prompt
+
     Returns:
-        args(ArgumentParser)
+        args(ArgumentParser): The parsed arguments sent to the script from the command line
     '''
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--medicine_type', type = str, help = 'The type of medicine a user wants to search for')
+    parser.add_argument('primary', type = str, help = 'The main type of medicine a to search for')
+    parser.add_argument('--secondary', '-o', type = str, default = None, help='The second type of medicine to search for')
+    parser.add_argument('--tertiary', '-o', type = str, default = None, help='The third type of medicine to search for'
+    )
     args = parser.parse_args(args_list)
     return args
 
 
 
 if __name__ == "__main__":
-    args = parse_args(sys.argv[1:])
-    
-    #Creat Medicine dataframe then pass dataframe through main to filter and sort data
-    Medicine = DataframeMaker()
-    RequestedProduct = main(Medicine)
+    arguments = parse_args(sys.argv[1:])
+
+    main(arguments.primary, arguments.secondary, arguments.tertiary)
