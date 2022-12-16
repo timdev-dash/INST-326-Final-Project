@@ -88,14 +88,13 @@ def FileSaver(textfile):
     pass
 
 ## Defining the main function for the script ##
-def main(primary: str, secondary = "", tertiary = ""):
+def main(primary: str):
     """
     The main function
 
     Parameters:
         primary(str): The primary and required medicine to search the dataframe for
-        secondary(str): The secondary, optional medicine to search the dataframe for
-        tertiary(str): The tertiary, optional medicine to search the dataframe for
+
     
     Returns:
         output_string(str): The string summarizing the filtered results using the provided medicine selections
@@ -108,13 +107,13 @@ def main(primary: str, secondary = "", tertiary = ""):
     cleansource = FrameCleaner(source)
 
     ## Run through the cleaned datasource using the medicine_parser method ##
-    medicine_list = medicine_parser(cleansource, primary, secondary, tertiary)
+    medicine_list = medicine_parser(cleansource, primary)
 
     ## Creating output string using the string_writer method ##
     ouput_string = string_writer(medicine_list)
 
     ## Sending the output string to the fileWriter method to create the output file of results ##
-    fileWrite(output_string)
+    FileWriter(output_string)
 
     ## Returning the output_string result to report the results ##
     return output_string
@@ -133,9 +132,6 @@ def parse_args(args_list):
     
     parser = argparse.ArgumentParser()
     parser.add_argument('primary', type = str, help = 'The main type of medicine a to search for')
-    parser.add_argument('--secondary', '-o', type = str, default = None, help='The second type of medicine to search for')
-    parser.add_argument('--tertiary', '-o', type = str, default = None, help='The third type of medicine to search for'
-    )
     args = parser.parse_args(args_list)
     return args
 
@@ -144,4 +140,4 @@ def parse_args(args_list):
 if __name__ == "__main__":
     arguments = parse_args(sys.argv[1:])
 
-    main(arguments.primary, arguments.secondary, arguments.tertiary)
+    main(arguments.primary)
