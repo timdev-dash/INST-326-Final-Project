@@ -6,8 +6,7 @@ INST326-ESG1 Farmer Fall 2022
 """
 '''
 Purpose: 
-    - To look up the cost of specific medicaid drugs using data from a source. Initially we hoped to use web scraping for this, however given the complexity
-        we needed to find an alternate source.
+    - 
 
 Challenges
     - Originally our plan was to compare product's prices from two different website, but due to the time constraint we did an alternative program.
@@ -109,7 +108,6 @@ def string_writer(dataframe):
     '''
     ## method to convert other data types into strings
     Medicine_List = dataframe.to_string()
-    print("This is from string writer")
     return Medicine_List
 
 
