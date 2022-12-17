@@ -1,5 +1,8 @@
 import unittest
-from Final_Project import Dataframe, Cleanframe, Uniquefilter, MedicineOutput
+from Final_Project import Dataframe
+from Final_Project import Cleanframe
+from Final_Project import Uniquefilter
+from Final_Project import MedicineOutput
 
 
 class TestDataframeMethod(unittest.TestCase):
@@ -10,7 +13,8 @@ class TestDataframeMethod(unittest.TestCase):
     #Returns true if Dataframe returns a dataframe
     def test_dataframe_creation(self):
         test_Dataframe = Dataframe()
-        self.assertEqual(type(test_Dataframe), "<class 'pandas.core.frame.DataFrame'>")
+        type_string = str(type(test_Dataframe))
+        self.assertEqual(type_string, "<class 'pandas.core.frame.DataFrame'>")
 
     #Returns true if first row in dataframe returns "12HR NASAL DECONGEST ER 120 MG"
     def test_dataframe_content(self):
@@ -51,6 +55,8 @@ class TestUniquefilterMethod(unittest.TestCase):
         test_Dataframe = Dataframe()
         test_Cleanframe = Cleanframe(test_Dataframe)
         test_Uniqueframe = Uniquefilter(test_Cleanframe)
+        blankindex = ['']*len(test_Uniqueframe)
+        test_Uniqueframe.index = blankindex
         self.assertNotEqual(test_Uniqueframe['NDC Description'][0], test_Uniqueframe['NDC Description'][1])
 
 class TestMedicineOutputMethod(unittest.TestCase):
@@ -64,15 +70,15 @@ class TestMedicineOutputMethod(unittest.TestCase):
         test_Cleanframe = Cleanframe(test_Dataframe)
         test_Uniqueframe = Uniquefilter(test_Cleanframe)
         test_MedicineOutput = MedicineOutput(test_Uniqueframe, "ABACAVIR 300 MG TABLET")
-        self.assertEqual(test_MedicineOutput["NDC Description"], "ABACAVIR 300 MG TABLET")
+        self.assertEqual(test_MedicineOutput['NDC Description'].to_string(index = False), "ABACAVIR 300 MG TABLET")
     
     #Returns true if the returned NDC Description matches LEVOTHYROXINE 100 MCG TABLET
     def test_MedicineOutput_Levothyroxine(self):
         test_Dataframe = Dataframe()
         test_Cleanframe = Cleanframe(test_Dataframe)
         test_Uniqueframe = Uniquefilter(test_Cleanframe)
-        test_MedicineOutput = MedicineOutput(test_Uniqueframe, "LEVOTHYROXINE 100 MCG TABLE")
-        self.assertEqual(test_MedicineOutput["NDC Description"], "LEVOTHYROXINE 100 MCG TABLE")
+        test_MedicineOutput = MedicineOutput(test_Uniqueframe, "LEVOTHYROXINE 100 MCG TABLET")
+        self.assertEqual(test_MedicineOutput['NDC Description'].to_string(index = False), "LEVOTHYROXINE 100 MCG TABLET")
 
     #Returns true if the returned NDC Description matches HYDROCORTISONE 20 MG TABLET
     def test_MedicineOutput_Hydrocortisone(self):
@@ -80,5 +86,7 @@ class TestMedicineOutputMethod(unittest.TestCase):
         test_Cleanframe = Cleanframe(test_Dataframe)
         test_Uniqueframe = Uniquefilter(test_Cleanframe)
         test_MedicineOutput = MedicineOutput(test_Uniqueframe, "HYDROCORTISONE 20 MG TABLET")
-        self.assertEqual(test_MedicineOutput["NDC Description"], "HYDROCORTISONE 20 MG TABLET")
+        self.assertEqual(test_MedicineOutput['NDC Description'].to_string(index = False), "HYDROCORTISONE 20 MG TABLET")
 
+if __name__ == "__main__":
+    unittest.main()
