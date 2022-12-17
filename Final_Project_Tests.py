@@ -1,6 +1,6 @@
 import unittest
-from Final_Project import Dataframe, Cleanframe, Uniquefilter, MedicineOutput, FileWriter, string_writer
-from Final_Project import main as test_main
+from Final_Project import Dataframe, Cleanframe, Uniquefilter, MedicineOutput
+
 
 class TestDataframeMethod(unittest.TestCase):
 
