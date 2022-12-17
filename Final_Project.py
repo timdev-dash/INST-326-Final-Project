@@ -6,13 +6,12 @@ INST326-ESG1 Farmer Fall 2022
 """
 '''
 Purpose: 
-    - 
+    - To look up the cost of specific medicaid drugs using data from a source. Initially we hoped to use web scraping for this, however given the complexity we needed to find an alternate source.
 
 Challenges
     - Originally our plan was to compare product's prices from two different website, but due to the time constraint we did an alternative program.
     - Difficulty reading csv file from the medicaid website
     - csv file does not contain price values. The NCPDP Billing unit Standard fact sheet explains the pricing unit for each medicine 
-    - 
 
 '''
 import argparse
@@ -25,7 +24,7 @@ def Dataframe():
         - A function that takes data from a csv url and converts it into a dataframe
 
     Return:
-        - a dataframe call Medicines  
+        - a dataframe called Medicines  
     '''
     ## read csv file using pandas ##
     Medicines = pd.read_csv("https://download.medicaid.gov/data/nadac-national-average-drug-acquisition-cost-12072022.csv")
@@ -67,10 +66,10 @@ def Uniquefilter(duplicates):
 def MedicineOutput(MedicineFrame, Medicine):
     '''
     Functionality:
-        - A function stores the NDC description 
+        - A function that stores the NDC description 
 
     Arguments:
-        - MedicineFrame: 
+        - MedicineFrame: Sorted and filter dataframe
         - Medicine: Dataframe of national drug data
     
     Return:
@@ -114,7 +113,7 @@ def string_writer(dataframe):
 def main(primary):
     '''
     Functionality:
-        - Create an instance of the server-class using the created functions and save them to corresponding variables
+        - Create an instance for each created function and save them to corresponding variables
     
     Argument:
         - primary: Command-line arguments for the program
