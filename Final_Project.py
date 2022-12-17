@@ -6,7 +6,8 @@ INST326-ESG1 Farmer Fall 2022
 """
 '''
 Purpose: 
-    - 
+    - To look up the cost of specific medicaid drugs using data from a source. Initially we hoped to use web scraping for this, however given the complexity
+        we needed to find an alternate source.
 
 Challenges
     - Originally our plan was to compare product's prices from two different website, but due to the time constraint we did an alternative program.
