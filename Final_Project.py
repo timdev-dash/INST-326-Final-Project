@@ -127,15 +127,12 @@ def main(primary):
     '''
     ## create instance of Dataframe function ##
     MedicineFrame = Dataframe()
-    #print("Hi")
 
     ## create instance of Cleanframe function using the given MedicineFrame ##
     CleanMedicineFrame = Cleanframe(MedicineFrame)
-    #print(CleanMedicineFrame)
 
     ## create instance of Uniquefilter function using the given CleanMedicineFrame ##
     UniqueMedicineFrame = Uniquefilter(CleanMedicineFrame)
-    #print(UniqueMedicineFrame)
     
     ## create instance of MedicineOutput function using the given UniqueMedicineFrame and primary ##
     SpecificMedicine = MedicineOutput(UniqueMedicineFrame, primary)
