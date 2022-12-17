@@ -76,7 +76,6 @@ def MedicineOutput(MedicineFrame, Medicine):
     Return:
         - Specific_Medicine: Dataframe of specific medicine
     '''
-    print(MedicineFrame)
     ## stores ndc description as a string 
     Specific_Medicine = MedicineFrame[MedicineFrame["NDC Description"].str.contains(Medicine)]
     return Specific_Medicine
@@ -110,7 +109,6 @@ def string_writer(dataframe):
     ## method to convert other data types into strings
     Medicine_List = dataframe.to_string()
     print("This is from string writer")
-    #print(Medicine_List)
     return Medicine_List
 
 
