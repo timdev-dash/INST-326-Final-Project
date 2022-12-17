@@ -4,140 +4,173 @@ Assignment: Team 11 Project
 Date: 11/28/2022
 INST326-ESG1 Farmer Fall 2022
 """
-import csv
+'''
+Purpose: 
+    - 
+
+Challenges
+    - Originally our plan was to compare product's prices from two different website, but due to the time constraint we did an alternative program.
+    - Difficulty reading csv file from the medicaid website
+    - csv file does not contain price values. The NCPDP Billing unit Standard fact sheet explains the pricing unit for each medicine 
+    - 
+
+'''
 import argparse
 import sys
 import pandas as pd
-import re
-import requests
 
+def Dataframe():
+    '''
+    Functionality:
+        - A function that takes data from a csv url and converts it into a dataframe
+
+    Return:
+        - a dataframe call Medicines  
+    '''
+    ## read csv file using pandas ##
+    Medicines = pd.read_csv("https://download.medicaid.gov/data/nadac-national-average-drug-acquisition-cost-12072022.csv")
+    return (Medicines)
+
+def Cleanframe(dataframe):
+    '''
+    Functionality:
+        - A function that cleans the dataframe of unnecessary columns by removing columns from the original dataframe
+
+    Arguments: 
+        - dataframe: Dataframe containing items and their prices of NDC
     
-#This function removes unnecessary columns from the dataframe
-def FrameCleaner(dataframe):
+    Returns:
+        - cleaned_dataframe: A cleaned dataframe
+
+    '''
+    ## selected columns that are deemed unnecessary ##
     cols = [3,5,6,7,8,9,10,11]
+    ## remove columns from the dataframe ##
     cleaned_dataframe = dataframe.drop(dataframe.columns[cols], axis = 1)
     return cleaned_dataframe
-    
-#Takes extracted data and organizes each item    
-def Uniquefilter(self):
-    '''This function looks through the dataframe and removes duplicate items'''
-    pass
-        
 
-def DataframeMaker():
+def Uniquefilter(duplicates):
     '''
-    This function takes data from a csv url and converts it into a dataframe
-    
-    Arguments:
-        - rawdata: The original data file
-    
+    Functionality:
+        - A function that filters duplicate rows so only unquie rows remain in the dataframe
+
+    Argument:
+        - dupliates: identical rows in the dataframe
+
     Returns:
-        - rawdata as a dataframe
-    
+        - Unique_Frame: A dataframe with only unique rows
     '''
-    Medicines = pd.read_csv("https://download.medicaid.gov/data/nadac-national-average-drug-acquisition-cost-12072022.csv")
-    return Medicines
+    ## drop duplicate rows in the dataframe ##
+    Unique_Frame = duplicates.drop_duplicates(subset = "NDC Description")
+    return Unique_Frame
 
-def DataframeSorter(dataframe):
-    '''Takes dataframe argument and sorts the information by cost from lowest to highest
+def MedicineOutput(MedicineFrame, Medicine):
+    '''
+    Functionality:
+        - A function stores the NDC description 
+
+    Arguments:
+        - MedicineFrame: 
+        - Medicine: Dataframe of national drug data
     
-    Argument
-        - dataframe: dataframe containing items and their prices
-    
-    Returns: 
-        - Dataframe sorted by costs'''
-    pass
+    Return:
+        - Specific_Medicine: Dataframe of specific medicine
+    '''
+    print(MedicineFrame)
+    ## stores ndc description as a string 
+    Specific_Medicine = MedicineFrame[MedicineFrame["NDC Description"].str.contains(Medicine)]
+    return Specific_Medicine
 
 def FileWriter(dataframe):
-    '''Writes information to a text file using the dataframe argument
-    
-    Argument
-        - dataframe: dataframe containing items and their prices
-    
-    Returns: 
-        - txt file containing dataframe'''
-    pass
-
-def ShowPrices(dataframe):
-    ''' Takes dataframe argument and displays information to the user
-    
-    Argument
-        - dataframe: dataframe containing items and their prices
-    
-    Returns: 
-        - Dataframe output to the user'''
-    pass
-
-def UnecessaryItems(dataframe):
-    '''Removes items that are not a part of the users query
-    
-    
-    Argument
-        - dataframe: dataframe containing items and their prices
-    
-    Returns: 
-        - Filtered dataframe containing only relevant items'''
-    pass
-
-def FileSaver(textfile):
-    '''Takes textfile argument and saves it
-    
-    Argument
-        - textfile: textfile containing filtered and sorted dataframe
     '''
-    pass
-
-## Defining the main function for the script ##
-def main(primary: str):
-    """
-    The main function
-
-    Parameters:
-        primary(str): The primary and required medicine to search the dataframe for
-
+    Functionality:
+        - A function that writes information to a text file using the dataframe argument
     
-    Returns:
-        output_string(str): The string summarizing the filtered results using the provided medicine selections
-    """
+    Argument
+        - dataframe: dataframe containing items and their prices of NDC
+    
+    Returns: 
+        - txt file containing dataframe
+    '''
+    # open file "output.txt" with variable in write mode
+    with open('Medput.txt', 'w') as f:
+        f.write(dataframe)
 
-    ## Calling for the source dataframe from the online .csv file ##
-    source = DataframeMaker()
+def string_writer(dataframe):
+    '''
+    Functionality:
+        - A function that covert dataframe to a list 
 
-    ## Removing extraneous columns from dataframe using the FrameCleaner method ##
-    cleansource = FrameCleaner(source)
+    Argument:
+        - dataframe: dataframe containing items and their prices of NDC
 
-    ## Run through the cleaned datasource using the medicine_parser method ##
-    medicine_list = medicine_parser(cleansource, primary)
+    Return:
+        - Medicine_List: A list of medicines 
+    '''
+    ## method to convert other data types into strings
+    Medicine_List = dataframe.to_string()
+    print("This is from string writer")
+    #print(Medicine_List)
+    return Medicine_List
 
-    ## Creating output string using the string_writer method ##
-    ouput_string = string_writer(medicine_list)
 
-    ## Sending the output string to the fileWriter method to create the output file of results ##
-    FileWriter(output_string)
+def main(primary):
+    '''
+    Functionality:
+        - Create an instance of the server-class using the created functions and save them to corresponding variables
+    
+    Argument:
+        - primary: Command-line arguments for the program
 
-    ## Returning the output_string result to report the results ##
-    return output_string
+    Return:
+        - Medicine_List: A list containing selected medicine, price and price_unit
+    '''
+    ## create instance of Dataframe function ##
+    MedicineFrame = Dataframe()
+    #print("Hi")
 
+    ## create instance of Cleanframe function using the given MedicineFrame ##
+    CleanMedicineFrame = Cleanframe(MedicineFrame)
+    #print(CleanMedicineFrame)
+
+    ## create instance of Uniquefilter function using the given CleanMedicineFrame ##
+    UniqueMedicineFrame = Uniquefilter(CleanMedicineFrame)
+    #print(UniqueMedicineFrame)
+    
+    ## create instance of MedicineOutput function using the given UniqueMedicineFrame and primary ##
+    SpecificMedicine = MedicineOutput(UniqueMedicineFrame, primary)
+
+    ## create instance of string_writer function using the given SpecificMedicine ##
+    Medicine_List = string_writer(SpecificMedicine)
+
+    ## writes a specified text to the file using Medicine_List
+    FileWriter(Medicine_List)
+    return Medicine_List
 
 def parse_args(args_list):
-    '''
-    Takes a string from the command prompt and passes it through as an argument
-    
-    Args:
-        args_list(list): the list of strings from the command prompt
+    """
+    Functionality:
+        - Create an instance of the ArgumentParser class from the argparse module
+        - Use the add_argument() method of your ArgumentParser instance to add primary arguement
+
+    Argument:
+        - arg_list : a list of strings containing the command-line arguments for the program
 
     Returns:
-        args(ArgumentParser): The parsed arguments sent to the script from the command line
-    '''
-    
+        - The ArgumentParser object created
+    """
+    ## create instance of ArgumentParser class from the argparse module ##
     parser = argparse.ArgumentParser()
-    parser.add_argument('primary', type = str, help = 'The main type of medicine a to search for')
+    ## use the add_argument method of your ArgumentParser instance to add the following arguments ##
+    parser.add_argument('primary', type = str, help = 'The main medicine to search for, the full medicine name is required')
+    ## parse and validate arguments ##
     args = parser.parse_args(args_list)
+    ## return the ArgumentParser object created ##
     return args
 
-
-
 if __name__ == "__main__":
-    arguments = parse_args(sys.argv[1:])
-
-    main(arguments.primary)
+    ## pass sys.argv[1:] to parse_args() and store the result in a variable ##
+    args = parse_args(sys.argv[1:])
+    ## get the output list from the main ##
+    Output_List = main(args.primary)
+    print(Output_List)
